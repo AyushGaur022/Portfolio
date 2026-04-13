@@ -9,150 +9,65 @@ import Certificates from './components/Certificates'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
 
-export default function App(){
+export default function App() {
   useEffect(() => {
-    const titles = [
-      "Frontend Developer | React.js",
-      "Building Responsive Web & Mobile Apps",
-      "JavaScript | HTML | CSS | Node.js"
-    ];
-    const body = document.body;
-
-    function updateThemeIcon(isLight) {
-      const themeIcon = document.getElementById('theme-icon');
-      if (!themeIcon) return;
-      themeIcon.classList.toggle('fa-sun', isLight);
-      themeIcon.classList.toggle('fa-moon', !isLight);
-      const navLinks = document.querySelectorAll('.nav-link');
-      navLinks.forEach(link => {
-          if (isLight) {
-              link.classList.remove('text-white');
-              link.classList.add('text-dark');
-          } else {
-              link.classList.remove('text-dark');
-              link.classList.add('text-white');
-          }
-      });
-      const logoSpan = document.getElementById('logo-span');
-      const logoLink = document.getElementById('logo-link');
-      if (logoSpan && logoLink) {
-          if (isLight) {
-              logoSpan.classList.remove('text-white');
-              logoLink.classList.remove('text-white');
-          } else {
-              logoSpan.classList.add('text-white');
-              logoLink.classList.add('text-white');
-          }
-      }
-    }
-
-    function toggleTheme() {
-      const isLight = body.classList.toggle('light-mode');
-      localStorage.setItem('theme', isLight ? 'light' : 'dark');
-      updateThemeIcon(isLight);
-    }
-
-    function applySavedTheme() {
-      const savedTheme = localStorage.getItem('theme');
-      if (savedTheme === 'light') {
-          body.classList.add('light-mode');
-      } else {
-          body.classList.remove('light-mode');
-      }
-    }
-
     // Typing animation
-    const typingElement = () => document.getElementById('typing-text');
-    let titleIndex = 0;
-    let charIndex = 0;
-    let isDeleting = false;
-    let typingTimeout;
+    const phrases = [
+      'Frontend Web Developer',
+      'React.js Specialist',
+      'UI / UX Implementor',
+      'Mobile App Builder',
+    ]
+    let pi = 0, ci = 0, deleting = false
+    let timer
 
     function type() {
-        const currentTitle = titles[titleIndex];
-        const delay = isDeleting ? 50 : 150;
-        const el = typingElement();
-        if (!isDeleting && charIndex <= currentTitle.length) {
-            if (el) el.textContent = currentTitle.substring(0, charIndex) + ' ';
-            charIndex++;
-        } else if (isDeleting && charIndex >= 0) {
-            if (el) el.textContent = currentTitle.substring(0, charIndex) + ' ';
-            charIndex--;
-        }
-        if (!isDeleting && charIndex > currentTitle.length) {
-            isDeleting = true;
-            if (el) el.classList.add('typing-cursor');
-            typingTimeout = setTimeout(type, 1500);
-            return;
-        } else if (isDeleting && charIndex < 0) {
-            isDeleting = false;
-            titleIndex = (titleIndex + 1) % titles.length;
-            if (el) el.classList.remove('typing-cursor');
-            typingTimeout = setTimeout(type, 500);
-            return;
-        }
-        typingTimeout = setTimeout(type, delay);
-    }
-
-    function setupScrollReveal() {
-      const sections = document.querySelectorAll('.scroll-reveal');
-      const observer = new IntersectionObserver((entries, observer) => {
-          entries.forEach(entry => {
-              if (entry.isIntersecting) {
-                  entry.target.classList.add('visible');
-                  observer.unobserve(entry.target);
-              }
-          });
-      }, { rootMargin: '0px', threshold: 0.18 });
-      sections.forEach(section => observer.observe(section));
-    }
-
-    function setupMobileMenu() {
-      const mobileMenuButton = document.getElementById('mobile-menu-button');
-      const mobileMenu = document.getElementById('mobile-menu');
-      if (mobileMenuButton && mobileMenu && window.bootstrap) {
-          const collapse = new window.bootstrap.Collapse(mobileMenu, { toggle: false });
-          mobileMenuButton.addEventListener('click', () => collapse.toggle());
-          mobileMenu.querySelectorAll('a').forEach(link => link.addEventListener('click', () => collapse.hide()));
+      const el = document.getElementById('typed-text')
+      if (!el) return
+      const phrase = phrases[pi]
+      if (!deleting) {
+        el.textContent = phrase.slice(0, ci + 1)
+        ci++
+        if (ci === phrase.length) { deleting = true; timer = setTimeout(type, 1800); return }
+      } else {
+        el.textContent = phrase.slice(0, ci - 1)
+        ci--
+        if (ci === 0) { deleting = false; pi = (pi + 1) % phrases.length; timer = setTimeout(type, 400); return }
       }
+      timer = setTimeout(type, deleting ? 45 : 120)
     }
+    type()
 
-    // Active nav highlight while scrolling
-    function setupActiveNav() {
-      const sections = document.querySelectorAll('main section[id], footer');
-      const navLinks = document.querySelectorAll('.nav-link');
-      function activate() {
-        let index = sections.length;
-        while(--index && window.scrollY + 120 < sections[index].offsetTop) {}
-        navLinks.forEach((link) => link.classList.remove('active'));
-        const id = sections[index] ? sections[index].id : '';
-        const activeLink = document.querySelector(`.nav-link[href="#${id}"]`);
-        if(activeLink) activeLink.classList.add('active');
-      }
-      activate();
-      window.addEventListener('scroll', activate);
-      return () => window.removeEventListener('scroll', activate);
+    // Scroll reveal
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target) } })
+    }, { threshold: 0.12 })
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el))
+
+    // Active nav
+    const sections = document.querySelectorAll('section[id], div[id="home"]')
+    const links = document.querySelectorAll('.nav-links a')
+    function onScroll() {
+      let current = ''
+      sections.forEach(s => { if (window.scrollY >= s.offsetTop - 120) current = s.id })
+      links.forEach(a => {
+        a.classList.toggle('active', a.getAttribute('href') === `#${current}`)
+      })
     }
+    window.addEventListener('scroll', onScroll)
 
-    setTimeout(() => {
-      applySavedTheme();
-      updateThemeIcon(document.body.classList.contains('light-mode'));
-      const btn = document.getElementById('theme-toggle');
-      if (btn) btn.addEventListener('click', toggleTheme);
-      type();
-      setupScrollReveal();
-      setupMobileMenu();
-      const cleanupActive = setupActiveNav();
-      // Save cleanup function for unmount
-      window.__cleanupActiveNav = cleanupActive;
-    }, 60);
+    // Mobile menu
+    const btn = document.getElementById('hamburger')
+    const menu = document.getElementById('mobile-nav')
+    if (btn && menu) {
+      btn.addEventListener('click', () => menu.classList.toggle('open'))
+      menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => menu.classList.remove('open')))
+    }
 
     return () => {
-      clearTimeout(typingTimeout);
-      const btn = document.getElementById('theme-toggle');
-      if (btn) btn.removeEventListener('click', toggleTheme);
-      if (window.__cleanupActiveNav) window.__cleanupActiveNav();
-    };
+      clearTimeout(timer)
+      window.removeEventListener('scroll', onScroll)
+    }
   }, [])
 
   return (

@@ -1,67 +1,76 @@
 import React from 'react'
-import { motion } from 'framer-motion'
 
-export default function Projects(){
+const projects = [
+  {
+    tags: ['React.js', 'CSS3'],
+    title: 'Tamato — Food Ordering Platform',
+    desc: 'A fully functional food ordering platform with category-based filtering, cart management, and a responsive UI. Reduced page rendering time by 25% through reusable component architecture and React tree optimization.',
+    icon: 'fas fa-utensils',
+    link: 'https://foodie-zvwy.vercel.app',
+    linkText: 'foodie-zvwy.vercel.app'
+  },
+  {
+    tags: ['React Native', 'JavaScript'],
+    title: 'MCQ Quiz — Mobile Application',
+    desc: 'An interactive mobile quiz app with multiple-choice questions, real-time answer validation, and smooth navigation. Improved app load speed by 20% through efficient state management and rendering optimization.',
+    icon: 'fas fa-mobile-alt',
+    link: null,
+  },
+  {
+    tags: ['React.js', 'REST API', 'JavaScript'],
+    title: 'Attendance Tracking System',
+    desc: 'A full-stack attendance management system with secure login/logout and automated analytics reporting. Automated manual processes, increasing administrative efficiency by 30%.',
+    icon: 'fas fa-chart-line',
+    link: null,
+  },
+  {
+    tags: ['React.js', 'CSS3', 'JavaScript'],
+    title: 'Blinkit Clone — Instant Delivery UI',
+    desc: 'A pixel-accurate clone of the Blinkit grocery delivery interface featuring product categories, search, cart management, and a fully responsive layout — demonstrating strong UI replication and component architecture skills.',
+    icon: 'fas fa-bolt',
+    link: null,
+  },
+  {
+    tags: ['React.js', 'CSS3', 'JavaScript'],
+    title: 'Nutrabay Clone — E-Commerce Platform',
+    desc: 'A feature-rich clone of the Nutrabay supplements store with product listing pages, filters, a detailed product view, and cart flow. Built to practice scalable state management and e-commerce UI patterns.',
+    icon: 'fas fa-shopping-bag',
+    link: null,
+  },
+  {
+    tags: ['HTML5', 'CSS3', 'JavaScript'],
+    title: 'Card Creator — Custom Card Generator',
+    desc: 'A browser-based card design tool that lets users customize greeting cards with text, colors, and layouts and download the result. A creative utility showcasing DOM manipulation and canvas/export techniques.',
+    icon: 'fas fa-id-card',
+    link: null,
+  },
+]
+
+export default function Projects() {
   return (
-    <motion.section id="projects" className="py-5 px-4 scroll-reveal"
-      initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-      <div className="container-lg mx-auto">
-        <h3 className="fs-2 fw-bold mb-5 text-white border-bottom border-accent d-inline-block pb-1">03. Featured Projects</h3>
-        <div className="d-grid gap-4">
-          
-          {/* Project 1 */}
-          <motion.div whileHover={{ scale: 1.01 }} className="project-card p-4 rounded-xl shadow d-flex flex-column flex-md-row align-items-center">
-            <div className="col-md-8 me-md-4">
-              <span className="text-accent small fw-semibold">React.js</span>
-              <h4 className="fs-4 fw-bold mt-2 mb-3 text-white">Tamato (Food Ordering Website)</h4>
-              <p className="text-secondary-custom">
-                Developed a dynamic food ordering platform featuring category-based filtering for easy navigation. 
-                Focus was placed on performance optimization, resulting in a <strong>25% reduction in page rendering time</strong> 
-                through efficient component reuse. Optimized the UI for a seamless experience across all devices.
-              </p>
+    <section id="projects" className="reveal">
+      <h3 className="section-title"><span className="num">03 &mdash;</span> Featured Projects <span className="line"/></h3>
+      <div className="projects-list">
+        {projects.map((p, i) => (
+          <div className="project-card" key={i}>
+            <div>
+              <div className="project-tags">
+                {p.tags.map(t => <span className="tag" key={t}>{t}</span>)}
+              </div>
+              <h4>{p.title}</h4>
+              <p>{p.desc}</p>
+              {p.link && (
+                <a href={p.link} target="_blank" rel="noreferrer" className="project-link">
+                  {p.linkText} <i className="fas fa-arrow-right" style={{fontSize:'0.7rem'}}></i>
+                </a>
+              )}
             </div>
-            <div className="col-md-4 mt-3 mt-md-0 d-flex justify-content-center">
-              <i className="fas fa-utensils project-icon text-accent opacity-75"
-                 style={{ fontSize: "4rem" }}></i>
+            <div className="project-icon-wrap">
+              <i className={p.icon}></i>
             </div>
-          </motion.div>
-
-          {/* Project 2 */}
-          <motion.div whileHover={{ scale: 1.01 }} className="project-card p-4 rounded-xl shadow d-flex flex-column flex-md-row align-items-center">
-            <div className="col-md-8 me-md-4 order-md-2">
-              <span className="text-accent small fw-semibold">React Native</span>
-              <h4 className="fs-4 fw-bold mt-2 mb-3 text-white">MCQ App (Mobile Quiz Application)</h4>
-              <p className="text-secondary-custom">
-                Built an interactive mobile quiz application using React Native. 
-                Strategic use of optimized state management <strong>improved quiz load speed by 20%</strong>. 
-                Features include real-time answer validation and smooth navigation for a superior user testing experience.
-              </p>
-            </div>
-            <div className="col-md-4 mt-3 mt-md-0 d-flex justify-content-center order-md-1">
-              <i className="fas fa-mobile-alt project-icon text-accent opacity-75"
-                 style={{ fontSize: "4rem" }}></i>
-            </div>
-          </motion.div>
-
-          {/* Project 3 */}
-          <motion.div whileHover={{ scale: 1.01 }} className="project-card p-4 rounded-xl shadow d-flex flex-column flex-md-row align-items-center">
-            <div className="col-md-8 me-md-4">
-              <span className="text-accent small fw-semibold">HTML, CSS, JS, PHP</span>
-              <h4 className="fs-4 fw-bold mt-2 mb-3 text-white">Attendance Tracking System</h4>
-              <p className="text-secondary-custom">
-                Created a full-stack system to manage attendance with secure login/logout features and detailed analytics. 
-                <strong>Increased overall efficiency by 30%</strong> by fully automating the generation and distribution of attendance reports.
-              </p>
-            </div>
-            <div className="col-md-4 mt-3 mt-md-0 d-flex justify-content-center">
-              <i className="fas fa-chart-line project-icon text-accent opacity-75"
-                 style={{ fontSize: "4rem" }}></i>
-            </div>
-          </motion.div>
-
-        </div>
+          </div>
+        ))}
       </div>
-    </motion.section>
+    </section>
   )
 }
-  

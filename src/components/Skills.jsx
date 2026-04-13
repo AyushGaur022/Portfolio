@@ -1,35 +1,35 @@
 import React from 'react'
-import { motion } from 'framer-motion'
 
-const skillsData = [
-  {icon: 'fab fa-react', title: 'React.js / Native', sub: 'Frameworks'},
-  {icon: 'fab fa-js-square', title: 'JavaScript (ES6+)', sub: 'Core Language'},
-  {icon: 'fab fa-html5', title: 'HTML5 / CSS3', sub: 'Markup & Styling'},
-  {icon: 'fas fa-mobile-alt', title: 'Responsive Design', sub: 'Bootstrap / Tailwind'},
-  {icon: 'fab fa-node-js', title: 'Node.js', sub: 'Backend'},
-  {icon: 'fas fa-database', title: 'REST APIs', sub: 'Integration'},
-  {icon: 'fab fa-git-alt', title: 'Git / GitHub', sub: 'Version Control'},
-  {icon: 'fab fa-php', title: 'PHP (Basic)', sub: 'Server Side'},
+const skills = [
+  {icon: 'fab fa-react', name: 'React.js / Native', sub: 'Frameworks'},
+  {icon: 'fab fa-js-square', name: 'JavaScript ES6+', sub: 'Core Language'},
+  {icon: 'fab fa-html5', name: 'HTML5 / CSS3', sub: 'Markup & Styling'},
+  {icon: 'fas fa-mobile-alt', name: 'Responsive Design', sub: 'Bootstrap'},
+  {icon: 'fab fa-wordpress', name: 'WordPress / WIX', sub: 'CMS & Builders'},
+  {icon: 'fas fa-plug', name: 'REST APIs', sub: 'Integration'},
+  {icon: 'fab fa-git-alt', name: 'Git / GitHub', sub: 'Version Control'},
+  {icon: 'fas fa-box', name: 'NPM / Yarn', sub: 'Package Managers'},
+  {icon: 'fas fa-cloud-upload-alt', name: 'Netlify / Vercel', sub: 'Deployment'},
+  {icon: 'fas fa-search', name: 'SEO Best Practices', sub: 'Core Competency'},
+  {icon: 'fas fa-sync-alt', name: 'Agile Development', sub: 'Workflow'},
+  {icon: 'fas fa-code', name: 'VS Code', sub: 'Dev Tools'},
 ]
 
-export default function Skills(){
+export default function Skills() {
   return (
-    <motion.section id="skills" className=" py-5 px-4 scroll-reveal" style={{backgroundColor: 'var(--secondary-bg)'}}
-      initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-      <div className="container-lg mx-auto">
-        <h3 className="fs-2 fw-bold mb-5 text-white border-bottom border-accent d-inline-block pb-1">02. Core Skills</h3>
-        <div className="row row-cols-2 row-cols-sm-3 row-cols-lg-4 g-4">
-          {skillsData.map((s,i) => (
-            <div className="col" key={i}>
-              <motion.div whileHover={{ y: -6, scale: 1.03 }} className="skill-card p-4 rounded-3 text-center h-100">
-                <i className={`${s.icon} fs-3 text-accent mb-3`}></i>
-                <p className="fw-semibold fs-5 mb-0 text-white">{s.title}</p>
-                <span className="small text-secondary-custom">{s.sub}</span>
-              </motion.div>
+    <section id="skills" className="alt reveal">
+      <div className="inner">
+        <h3 className="section-title"><span className="num">02 &mdash;</span> Core Skills <span className="line"/></h3>
+        <div className="skills-grid">
+          {skills.map((s, i) => (
+            <div className="skill-item" key={i}>
+              <i className={s.icon}></i>
+              <div className="skill-name">{s.name}</div>
+              <div className="skill-sub">{s.sub}</div>
             </div>
           ))}
         </div>
       </div>
-    </motion.section>
+    </section>
   )
 }
